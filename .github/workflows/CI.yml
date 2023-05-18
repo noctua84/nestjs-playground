@@ -42,6 +42,22 @@ jobs:
           git add package.json package-lock.json
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git commit -m "chore(dependencies): Update dependencies"
+          git push --set-upstream origin ${{ github.head_ref }}:${{ github.head_ref }} --force-with-lease=refs/heads/${{ github.head_ref }}
+      
+      - name: update installed packages
+        if: steps.check_package_json.outputs.changed == 'true'
+        run: npm install
+      
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
   linting_and_formatting:
     runs-on: ubuntu-latest
@@ -91,7 +107,7 @@ jobs:
       - name: Linting
         run: npm run lint
 
-      - name: formatting
+      - name: Formatting
         run: npm run format
 
       - name: Check if code has changed
@@ -100,12 +116,15 @@ jobs:
 
       - name: Persist changes in code
         if: steps.check_lint_changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add .
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git commit -m "chore: Fix linting errors"
-          git push --force-with-lease="refs/heads/${{ github.ref }}"
+          git commit -m "chore(linting): Fix linting errors"
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          git push --force-with-lease="refs/heads/${BRANCH_NAME}"
 
   tests:
     runs-on: ubuntu-latest
