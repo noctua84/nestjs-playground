@@ -123,8 +123,7 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git commit -m "chore(linting): Fix linting errors"
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          git push --force-with-lease="refs/heads/${BRANCH_NAME}"
+          git push --set-upstream origin ${{ github.head_ref }}:${{ github.head_ref }} --force-with-lease=refs/heads/${{ github.head_ref }}
 
   tests:
     runs-on: ubuntu-latest
