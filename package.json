@@ -1,10 +1,13 @@
 {
   "name": "nestjs-playground",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A playground application for NestJS and various other libraries, tools and techniques",
+  "author": "Markus Möller",
+  "repository": {
+    "url": "https://github.com/noctua84/nestjs-playground.git"
+  },
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
