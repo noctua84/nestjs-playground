@@ -16,26 +16,26 @@ on:
 jobs:
   check_dependencies:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Install npm-check-updates
         run: npm install -g npm-check-updates
-      
+
       - name: Check for package updates
         run: npx ncu --doctor -u
-      
+
       - name: Check if package.json has changed
         id: check_package_json
         run: git diff --quiet HEAD -- package.json || echo "::set-output name=changed::true"
-      
+
       - name: Persist changes in package.json
         if: steps.check_package_json.outputs.changed == 'true'
         run: |
@@ -46,11 +46,11 @@ jobs:
   linting_and_formatting:
     runs-on: ubuntu-latest
     needs: check_dependencies
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Check for dependency updates
         id: check_dependency_updates
         env:
@@ -63,16 +63,16 @@ jobs:
           if [[ "$current_sha" != "$latest_sha" ]]; then
           echo "::set-output name=updated::true"
           fi
-      
+
       - name: Pull latest changes
         if: steps.check_dependency_updates.outputs.updated == 'true'
         run: git pull
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Restore Node Modules from Cache
         if: steps.check_dependency_updates.outputs.updated == 'false'
         uses: actions/cache@v2
@@ -83,21 +83,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             ${{ runner.os }}-
-      
+
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true' || steps.check_dependency_updates.outputs.updated == 'true'
         run: npm install
-      
+
       - name: Linting
         run: npm run lint
-      
+
       - name: formatting
         run: npm run format
-      
+
       - name: Check if code has changed
         id: check_lint_changes
         run: git diff --quiet HEAD -- || echo "::set-output name=changed::true"
-      
+
       - name: Persist changes in code
         if: steps.check_lint_changes.outputs.changed == 'true'
         run: |
@@ -106,20 +106,20 @@ jobs:
           git config user.email "actions@github.com"
           git commit -m "chore: Fix linting errors"
           git push --force-with-lease="refs/heads/${{ github.ref }}"
-  
+
   tests:
     runs-on: ubuntu-latest
     needs: check_dependencies
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Restore Node Modules from Cache
         uses: actions/cache@v2
         id: cache-node-modules
@@ -129,32 +129,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             ${{ runner.os }}-
-      
+
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
-      
+
       - name: unit testing
         run: npm test
-      
+
       # e2e test are disabled for now
       #
       #- name: e2e testing
       #  run: npm run test:e2e
-  
+
   coverage:
     runs-on: ubuntu-latest
     needs: tests
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Restore Node Modules from Cache
         uses: actions/cache@v2
         id: cache-node-modules
@@ -164,28 +164,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             ${{ runner.os }}-
-      
+
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
-      
+
       - name: coverage
         run: npm run test:cov
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-  
+
   build:
     runs-on: ubuntu-latest
     needs: [ check_dependencies, tests, linting_and_formatting ]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Check for dependency updates
         id: check_updates
         env:
@@ -198,33 +198,33 @@ jobs:
           if [[ "$current_sha" != "$latest_sha" ]]; then
           echo "::set-output name=updated::true"
           fi
-      
+
       - name: Pull latest changes
         if: steps.check_updates.outputs.updated == 'true'
         run: git pull
-      
+
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Install dependencies
         run: npm install
-      
+
       - name: Install semver
         run: npm install -g semver
-      
+
       - name: Build the application
         run: npm run build
-  
+
   versioning_and_changelog:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Check for dependency updates
         id: check_updates
         env:
@@ -237,24 +237,24 @@ jobs:
           if [[ "$current_sha" != "$latest_sha" ]]; then
           echo "::set-output name=updated::true"
           fi
-      
+
       - name: Pull latest changes
         if: steps.check_updates.outputs.updated == 'true'
         run: git pull
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Install standard-version
         run: npm install -g standard-version
-      
+
       - name: Configure git
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-      
+
       - name: Create release commit
         run: |
           npx standard-version
