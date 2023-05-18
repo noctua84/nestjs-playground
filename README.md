@@ -4,7 +4,10 @@
 ![Lines of code](https://img.shields.io/tokei/lines/github/noctua84/nestjs-playground)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/noctua84/nestjs-playground)
 ![GitHub last commit](https://img.shields.io/github/last-commit/noctua84/nestjs-playground)
-[![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-playground/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-playground)
+[![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-playground/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-playground)  
+Workflows:  
+[![SonarCloud](https://github.com/noctua84/nestjs-playground/actions/workflows/SonarCloud.yml/badge.svg)](https://github.com/noctua84/nestjs-playground/actions/workflows/SonarCloud.yml)
+[![CI](https://github.com/noctua84/nestjs-playground/actions/workflows/CI.yml/badge.svg)](https://github.com/noctua84/nestjs-playground/actions/workflows/CI.yml)
 
 # nestjs-playground
 A playground repository to explore nestjs and add things overtime. See the README for more details.  
