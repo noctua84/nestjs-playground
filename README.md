@@ -33,7 +33,7 @@ This list is not complete and will be updated over time.
 Next to the feature there is a link to the npm package that is used to implement it.  
 If there is no link, the feature is implemented without any external package.
 
-- [ ] Logging with [winston](https://www.npmjs.com/package/winston)
+- [x] Logging with [winston](https://www.npmjs.com/package/winston)
 - [ ] API-Documentation with [Swagger](https://www.npmjs.com/package/@nestjs/swagger)
 - [ ] Authentication and Authorization with [Passport](https://www.npmjs.com/package/passport)
 - [ ] Database
@@ -41,17 +41,17 @@ If there is no link, the feature is implemented without any external package.
   - [ ] with [Mongoose](https://www.npmjs.com/package/mongoose)
 - [ ] Caching with [Redis](https://www.npmjs.com/package/redis)
 - [ ] Testing with [Jest](https://www.npmjs.com/package/jest)
-- [ ] CI/CD with [GitHub Actions](https://www.npmjs.com/package/github-actions)
+- [x] CI/CD with [GitHub Actions](https://www.npmjs.com/package/github-actions)
 - [ ] Deployment 
   - [ ] with [Docker](https://docker.com)
   - [ ] with [Kubernetes](https://www.kubernetes.io) and [Helm](https://helm.sh)
 - [ ] Monitoring with [Prometheus](https://www.npmjs.com/package/prometheus)
-- [ ] Error Handling
-  - [ ] with [Sentry](https://www.npmjs.com/package/@sentry/node)
+- [x] Error Handling
+  - [x] with [Sentry](https://www.npmjs.com/package/@sentry/node)
 - [ ] Metrics with [Prometheus](https://www.npmjs.com/package/prom-client)
 - [ ] Healthchecks with [Terminus](https://www.npmjs.com/package/@godaddy/terminus)
-- [ ] Configuration with [@nestjs/config](https://www.npmjs.com/package/@nestjs/config)
-- [ ] Config Validation with [Joi](https://www.npmjs.com/package/joi)
+- [x] Configuration with [@nestjs/config](https://www.npmjs.com/package/@nestjs/config)
+- [x] Config Validation with [Joi](https://www.npmjs.com/package/joi)
 
 ## Tools used in this project (not part of the application)
 The tools listed here are not part of the application but are used to develop it, assist in maintaining it and to keep the code quality high.
@@ -64,6 +64,7 @@ The tools listed here are not part of the application but are used to develop it
 - [CodeCov](https://codecov.io/)
 - [CircleCI](https://circleci.com/)
 - [Sentry](https://sentry.io/)
+- [release-please](https://github.com/googleapis/release-please)
 
 All of these tools are free to use for open source projects.  
 But this list also aligns with my personal preferences and is not a recommendation to use these tools.  
