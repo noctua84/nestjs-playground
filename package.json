@@ -1,6 +1,6 @@
 {
   "name": "nestjs-playground",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A playground application for NestJS and various other libraries, tools and techniques",
   "author": "Markus Möller",
   "repository": {
